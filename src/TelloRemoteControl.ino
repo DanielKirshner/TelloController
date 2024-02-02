@@ -89,6 +89,12 @@ void land()
     send_command_to_tello(COMMAND_LAND);
 }
 
+void fly_direction(const String& direction, const size_t cm_to_move)
+{
+    const String full_command = direction + " " + cm_to_move;
+    send_command_to_tello(full_command);
+}
+
 void setup()
 {
     wait(5);
@@ -110,12 +116,15 @@ void setup()
     }
 
     initialized = true;
+    takeoff();
+    wait(5);
+    land();
 }
 
 void loop()
 {
     if (initialized)
     {
-        // TODO: ...
+
     }
 }
