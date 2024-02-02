@@ -59,7 +59,7 @@ bool send_command_to_tello(const String& command_to_send)
 {
     tello_connection.beginPacket(TELLO_IP.c_str(), TELLO_PORT);
     command_to_send.getBytes(buffer, BUFFER_SIZE);
-    tello_connection.write(buffer, BUFFER_SIZE);
+    tello_connection.write(buffer, command_to_send.length());
     bool command_sent_successfully = tello_connection.endPacket();
     Serial.println(command_sent_successfully ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL);
     return command_sent_successfully;
