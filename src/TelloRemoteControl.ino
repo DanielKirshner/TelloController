@@ -23,6 +23,11 @@ WiFiUDP tello_connection;
 constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
 
+// Tello Commands
+const String COMMAND_ENABLE_SDK = "command";
+const String COMMAND_TAKEOFF    = "takeoff";
+const String COMMAND_LAND       = "land";
+
 
 void wait(const size_t seconds)
 {
@@ -37,7 +42,7 @@ void initialize()
 
 void connect_to_wifi()
 {
-    Serial.print(STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI);
+    Serial.println(STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI);
     WiFi.begin(TELLO_WIFI_SSID.c_str(), TELLO_WIFI_PASSWORD.c_str());
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -49,8 +54,8 @@ void connect_to_wifi()
 
 bool initialize_connection_to_tello()
 {
-    Serial.print(STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO);
-    bool succeeded = tello_connection.begin(LOCAL_PORT);
+    Serial.println(STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO);
+    const bool succeeded = tello_connection.begin(LOCAL_PORT);
     Serial.println(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL);
     return succeeded;
 }
@@ -60,18 +65,29 @@ bool send_command_to_tello(const String& command_to_send)
     tello_connection.beginPacket(TELLO_IP.c_str(), TELLO_PORT);
     command_to_send.getBytes(buffer, BUFFER_SIZE);
     tello_connection.write(buffer, command_to_send.length());
-    bool command_sent_successfully = tello_connection.endPacket();
+    const bool command_sent_successfully = tello_connection.endPacket();
     Serial.println(command_sent_successfully ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL);
     return command_sent_successfully;
 }
 
 bool enable_sdk_mode()
 {
-    Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    bool enabling_sdk_status = send_command_to_tello("command");
+    Serial.println(STATUS_MESSAGE__ENABLING_SDK_MODE);
+    const bool enabling_sdk_status = send_command_to_tello(COMMAND_ENABLE_SDK);
     return enabling_sdk_status;
 }
 
+void takeoff()
+{
+    Serial.println("Taking off...");
+    send_command_to_tello(COMMAND_TAKEOFF);
+}
+
+void land()
+{
+    Serial.println("Landing...");
+    send_command_to_tello(COMMAND_LAND);
+}
 
 void setup()
 {
