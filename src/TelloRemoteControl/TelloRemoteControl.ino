@@ -3,43 +3,45 @@
 #include <cstdint>
 
 // GPIO Pins:
-const uint8_t PIN__POWER_LED = 14;
-const uint8_t PIN__LINK_LED = 12;
-const uint8_t PIN__BUZZER = 5;
-const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL = 2;
-const uint8_t PIN__LEFT_JOYSTICK_Y_WHEEL = 4;
-const uint8_t PIN__LEFT_JOYSTICK_BUTTON = 16;
+const uint8_t PIN__POWER_LED              = 14;
+const uint8_t PIN__LINK_LED               = 12;
+const uint8_t PIN__BUZZER                 = 5;
+const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL  = 2;
+const uint8_t PIN__LEFT_JOYSTICK_Y_WHEEL  = 4;
+const uint8_t PIN__LEFT_JOYSTICK_BUTTON   = 16;
 const uint8_t PIN__RIGHT_JOYSTICK_X_WHEEL = 25;
 const uint8_t PIN__RIGHT_JOYSTICK_Y_WHEEL = 33;
-const uint8_t PIN__RIGHT_JOYSTICK_BUTTON = 32;
-const uint8_t PIN__LEFT_BUTTON = 21;
-const uint8_t PIN__RIGHT_BUTTON = 22;
+const uint8_t PIN__RIGHT_JOYSTICK_BUTTON  = 32;
+const uint8_t PIN__LEFT_BUTTON            = 21;
+const uint8_t PIN__RIGHT_BUTTON           = 22;
 
-// Debug Messages
-const String MESSAGE__FIRMWARE_INFO = "Tello Remote-Controller | v0.1";
-const String STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI = "Connecting to Tello's Wi-Fi... ";
+// Debug Messages:
+const String MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
+const String STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi... ";
 const String STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello... ";
-const String STATUS_MESSAGE__ENABLING_SDK_MODE = "Enabling SDK mode... ";
-const String STATUS_MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
-const String STATUS_MESSAGE_RESPONSE__FAIL = "FAIL!";
+const String STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode... ";
+const String STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off... ";
+const String STATUS_MESSAGE__LANDING                          = "Landing... ";
+const String STATUS_MESSAGE_RESPONSE__SUCCESS                 = "SUCCESS!";
+const String STATUS_MESSAGE_RESPONSE__FAIL                    = "FAIL!";
 
-// Connection parameters
+// Tello Commands:
+const String TELLO_COMMAND__ENABLE_SDK = "command";
+const String TELLO_COMMAND__TAKEOFF    = "takeoff";
+const String TELLO_COMMAND__LAND       = "land";
+
+// Connection parameters:
 const String TELLO_WIFI_SSID = "TELLO-9F5E9A";
 const String TELLO_WIFI_PASSWORD = "";
 const String TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 constexpr uint16_t LOCAL_PORT = 9000;    // Local port to bind the UDP socket to. Can be any free port.
 
-// Globals
+// Global variables:
 bool initialized = false;
 WiFiUDP tello_connection;
 constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
-
-// Tello Commands
-const String COMMAND_ENABLE_SDK = "command";
-const String COMMAND_TAKEOFF    = "takeoff";
-const String COMMAND_LAND       = "land";
 
 
 void wait(const size_t seconds)
@@ -85,21 +87,23 @@ bool send_command_to_tello(const String& command_to_send)
 
 bool enable_sdk_mode()
 {
-    Serial.println(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    const bool enabling_sdk_status = send_command_to_tello(COMMAND_ENABLE_SDK);
-    return enabling_sdk_status;
+    Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
+    const bool succeeded = send_command_to_tello(TELLO_COMMAND__ENABLE_SDK);
+    return succeeded;
 }
 
-void takeoff()
+bool takeoff()
 {
-    Serial.println("Taking off...");
-    send_command_to_tello(COMMAND_TAKEOFF);
+    Serial.print(STATUS_MESSAGE__TAKING_OFF);
+    const bool succeeded = send_command_to_tello(TELLO_COMMAND__TAKEOFF);
+    return succeeded;
 }
 
-void land()
+bool land()
 {
-    Serial.println("Landing...");
-    send_command_to_tello(COMMAND_LAND);
+    Serial.print(STATUS_MESSAGE__LANDING);
+    const bool succeeded = send_command_to_tello(TELLO_COMMAND__LAND);
+    return succeeded;
 }
 
 void fly_direction(const String& direction, const size_t cm_to_move)
