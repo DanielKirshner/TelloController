@@ -10,7 +10,7 @@ const String STATUS_MESSAGE__ENABLING_SDK_MODE = "Enabling SDK mode... ";
 const String STATUS_MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
 const String STATUS_MESSAGE_RESPONSE__FAIL = "FAIL!";
 
-// Wifi Credentials
+// Connection parameters
 const String TELLO_WIFI_SSID = "TELLO-9F5E9A";
 const String TELLO_WIFI_PASSWORD = "";
 const String TELLO_IP = "192.168.10.1";
@@ -23,12 +23,10 @@ WiFiUDP tello_connection;
 constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
 
-// Constants
-constexpr size_t ONE_SECOND_AS_MILISECONDS = 1000;
 
-void sleep(const size_t seconds)
+void wait(const size_t seconds)
 {
-    delay(seconds * ONE_SECOND_AS_MILISECONDS);
+    delay(seconds * 1000);
 }
 
 void initialize()
@@ -60,8 +58,8 @@ bool initialize_connection_to_tello()
 bool send_command_to_tello(const String& command_to_send)
 {
     tello_connection.beginPacket(TELLO_IP.c_str(), TELLO_PORT);
-    String(command_to_send.c_str()).getBytes(buffer, BUFFER_SIZE));
-    tello_connection.write(buffer, BUFFER_SIZE));
+    command_to_send.getBytes(buffer, BUFFER_SIZE);
+    tello_connection.write(buffer, BUFFER_SIZE);
     bool command_sent_successfully = tello_connection.endPacket();
     Serial.println(command_sent_successfully ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL);
     return command_sent_successfully;
@@ -77,19 +75,19 @@ bool enable_sdk_mode()
 
 void setup()
 {
-    sleep(5);
+    wait(5);
     initialize();
 
-    sleep(1);
+    wait(1);
     connect_to_wifi();
 
-    sleep(1);
+    wait(1);
     if (!initialize_connection_to_tello())
     {
         return;
     }
 
-    sleep(1);
+    wait(1);
     if (!enable_sdk_mode())
     {
         return;
