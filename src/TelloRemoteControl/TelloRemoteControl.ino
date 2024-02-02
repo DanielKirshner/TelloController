@@ -2,6 +2,19 @@
 #include <WiFiUdp.h>
 #include <cstdint>
 
+// GPIO Pins:
+const uint8_t PIN__POWER_LED = 14;
+const uint8_t PIN__LINK_LED = 12;
+const uint8_t PIN__BUZZER = 5;
+const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL = 2;
+const uint8_t PIN__LEFT_JOYSTICK_Y_WHEEL = 4;
+const uint8_t PIN__LEFT_JOYSTICK_BUTTON = 16;
+const uint8_t PIN__RIGHT_JOYSTICK_X_WHEEL = 25;
+const uint8_t PIN__RIGHT_JOYSTICK_Y_WHEEL = 33;
+const uint8_t PIN__RIGHT_JOYSTICK_BUTTON = 32;
+const uint8_t PIN__LEFT_BUTTON = 21;
+const uint8_t PIN__RIGHT_BUTTON = 22;
+
 // Debug Messages
 const String MESSAGE__FIRMWARE_INFO = "Tello Remote-Controller | v0.1";
 const String STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI = "Connecting to Tello's Wi-Fi... ";
@@ -116,9 +129,6 @@ void setup()
     }
 
     initialized = true;
-    takeoff();
-    wait(5);
-    land();
 }
 
 void loop()
