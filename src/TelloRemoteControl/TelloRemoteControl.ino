@@ -44,7 +44,7 @@ constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
 
 
-void wait(const size_t seconds)
+void wait(const float seconds)
 {
     delay(seconds * 1000);
 }
@@ -62,7 +62,7 @@ void connect_to_wifi()
     while (WiFi.status() != WL_CONNECTED)
     {
         Serial.print(".");
-        delay(10);
+        wait(0.25);
     }
     Serial.println(" " + STATUS_MESSAGE_RESPONSE__SUCCESS);
 }
