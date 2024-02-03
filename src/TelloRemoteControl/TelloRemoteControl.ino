@@ -1,6 +1,6 @@
-#include <WiFiUdp.h>
 #include <cstdint>
 #include "WifiConnection.hpp"
+#include "Tello.hpp"
 
 
 // GPIO Pins:
@@ -35,14 +35,11 @@ const String TELLO_WIFI_SSID = "TELLO-9F5E9A";
 const String TELLO_WIFI_PASSWORD = "";
 const String TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
-constexpr uint16_t LOCAL_PORT = 9000;    // Local port to bind the UDP socket to. Can be any free port.
 
 // Global variables:
 bool initialized = false;
 WifiConnection wifi_connection(TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD);
-WiFiUDP tello_connection;
-constexpr size_t BUFFER_SIZE = 1024;
-byte buffer[BUFFER_SIZE];
+Tello tello(TELLO_IP, TELLO_PORT);
 
 
 
@@ -62,39 +59,32 @@ void connect_to_wifi()
 bool initialize_connection_to_tello()
 {
     Serial.print(STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO);
-    const bool succeeded = tello_connection.begin(LOCAL_PORT);
+    const bool succeeded = tello.initialize_connection();
     Serial.println(" " + (succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
-}
-
-bool send_command_to_tello(const String& command_to_send)
-{
-    tello_connection.beginPacket(TELLO_IP.c_str(), TELLO_PORT);
-    command_to_send.getBytes(buffer, BUFFER_SIZE);
-    tello_connection.write(buffer, command_to_send.length());
-    const bool command_sent_successfully = tello_connection.endPacket();
-    Serial.println(" " + (command_sent_successfully ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
-    return command_sent_successfully;
 }
 
 bool enable_sdk_mode()
 {
     Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    const bool succeeded = send_command_to_tello(TELLO_COMMAND__ENABLE_SDK);
+    const bool succeeded = tello.send_command(TELLO_COMMAND__ENABLE_SDK);
+    Serial.println(" " + (succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
 
 bool takeoff()
 {
     Serial.print(STATUS_MESSAGE__TAKING_OFF);
-    const bool succeeded = send_command_to_tello(TELLO_COMMAND__TAKEOFF);
+    const bool succeeded = tello.send_command(TELLO_COMMAND__TAKEOFF);
+    Serial.println(" " + (succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
 
 bool land()
 {
     Serial.print(STATUS_MESSAGE__LANDING);
-    const bool succeeded = send_command_to_tello(TELLO_COMMAND__LAND);
+    const bool succeeded = tello.send_command(TELLO_COMMAND__LAND);
+    Serial.println(" " + (succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
 
@@ -106,7 +96,7 @@ void fly_direction(const String& direction, const size_t cm_to_move)
         return;
     }
     const String full_command = direction + " " + cm_to_move;
-    send_command_to_tello(full_command);
+    tello.send_command(full_command);
 }
 
 void setup()
