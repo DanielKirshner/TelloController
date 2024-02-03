@@ -3,7 +3,6 @@
 #include <cstdint>
 
 // GPIO Pins:
-const uint8_t PIN__POWER_LED              = 14;
 const uint8_t PIN__LINK_LED               = 12;
 const uint8_t PIN__BUZZER                 = 5;
 const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL  = 2;
