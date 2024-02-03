@@ -43,10 +43,6 @@ constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
 
 
-void wait(const float seconds)
-{
-    delay(seconds * 1000);
-}
 
 void initialize()
 {
@@ -61,7 +57,7 @@ void connect_to_wifi()
     while (WiFi.status() != WL_CONNECTED)
     {
         Serial.print(".");
-        wait(0.25);
+        delay(250);
     }
     Serial.println(" " + STATUS_MESSAGE_RESPONSE__SUCCESS);
 }
@@ -118,19 +114,19 @@ void fly_direction(const String& direction, const size_t cm_to_move)
 
 void setup()
 {
-    wait(5);
+    delay(5000);
     initialize();
 
-    wait(1);
+    delay(1000);
     connect_to_wifi();
 
-    wait(1);
+    delay(1000);
     if (!initialize_connection_to_tello())
     {
         return;
     }
 
-    wait(1);
+    delay(1000);
     if (!enable_sdk_mode())
     {
         return;
