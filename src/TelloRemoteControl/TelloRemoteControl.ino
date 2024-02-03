@@ -1,6 +1,7 @@
-#include <WiFi.h>
 #include <WiFiUdp.h>
 #include <cstdint>
+#include "WifiConnection.hpp"
+
 
 // GPIO Pins:
 const uint8_t PIN__LINK_LED               = 12;
@@ -38,6 +39,7 @@ constexpr uint16_t LOCAL_PORT = 9000;    // Local port to bind the UDP socket to
 
 // Global variables:
 bool initialized = false;
+WifiConnection wifi_connection(TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD);
 WiFiUDP tello_connection;
 constexpr size_t BUFFER_SIZE = 1024;
 byte buffer[BUFFER_SIZE];
@@ -53,12 +55,7 @@ void initialize()
 void connect_to_wifi()
 {
     Serial.print(STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI);
-    WiFi.begin(TELLO_WIFI_SSID.c_str(), TELLO_WIFI_PASSWORD.c_str());
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        Serial.print(".");
-        delay(250);
-    }
+    wifi_connection.connect();
     Serial.println(" " + STATUS_MESSAGE_RESPONSE__SUCCESS);
 }
 
