@@ -5,7 +5,7 @@
 // GPIO Pins:
 const uint8_t PIN__LINK_LED               = 12;
 const uint8_t PIN__BUZZER                 = 5;
-const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL  = 2;
+const uint8_t PIN__LEFT_JOYSTICK_X_WHEEL  = 15;
 const uint8_t PIN__LEFT_JOYSTICK_Y_WHEEL  = 4;
 const uint8_t PIN__LEFT_JOYSTICK_BUTTON   = 16;
 const uint8_t PIN__RIGHT_JOYSTICK_X_WHEEL = 25;
