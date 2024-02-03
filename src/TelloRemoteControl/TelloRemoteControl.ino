@@ -108,6 +108,11 @@ bool land()
 
 void fly_direction(const String& direction, const size_t cm_to_move)
 {
+    if (cm_to_move < 20 || cm_to_move > 500)
+    {
+        Serial.println("Invalid cm parameter");
+        return;
+    }
     const String full_command = direction + " " + cm_to_move;
     send_command_to_tello(full_command);
 }
