@@ -25,11 +25,6 @@ constexpr char* STATUS_MESSAGE__LANDING                          = "Landing...";
 constexpr char* STATUS_MESSAGE_RESPONSE__SUCCESS                 = "SUCCESS!";
 constexpr char* STATUS_MESSAGE_RESPONSE__FAIL                    = "FAIL!";
 
-// Tello Commands:
-constexpr char* TELLO_COMMAND__ENABLE_SDK = "command";
-constexpr char* TELLO_COMMAND__TAKEOFF    = "takeoff";
-constexpr char* TELLO_COMMAND__LAND       = "land";
-
 // Connection parameters:
 constexpr char* TELLO_WIFI_SSID = "TELLO-9F5E9A";
 constexpr char* TELLO_WIFI_PASSWORD = "";
@@ -67,7 +62,7 @@ bool initialize_connection_to_tello()
 bool enable_sdk_mode()
 {
     Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    const bool succeeded = tello.send_command(TELLO_COMMAND__ENABLE_SDK);
+    const bool succeeded = tello.send_command(Tello::COMMAND__ENABLE_SDK);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
@@ -75,7 +70,7 @@ bool enable_sdk_mode()
 bool takeoff()
 {
     Serial.print(STATUS_MESSAGE__TAKING_OFF);
-    const bool succeeded = tello.send_command(TELLO_COMMAND__TAKEOFF);
+    const bool succeeded = tello.send_command(Tello::COMMAND__TAKEOFF);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
@@ -83,7 +78,7 @@ bool takeoff()
 bool land()
 {
     Serial.print(STATUS_MESSAGE__LANDING);
-    const bool succeeded = tello.send_command(TELLO_COMMAND__LAND);
+    const bool succeeded = tello.send_command(Tello::COMMAND__LAND);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
