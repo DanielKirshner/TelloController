@@ -5,17 +5,20 @@
 
 class WifiConnection
 {
-    public: enum class ConnectionAttemptStatus
-    {
-        FAILED,
-        TIMED_OUT,
-        SUCCEEDED
-    };
+    public:
+        enum class ConnectionAttemptStatus
+        {
+            FAILED,
+            TIMED_OUT,
+            SUCCEEDED
+        };
 
 
-    private: String ssid;
-    private: String password;
+    private:
+        String ssid;
+        String password;
 
-    public: WifiConnection(const String& ssid, const String& password);
-    public: ConnectionAttemptStatus connect(uint64_t timeout_in_ms = 0) const;
+    public:
+        WifiConnection(const String& ssid, const String& password);
+        ConnectionAttemptStatus connect(uint64_t timeout_in_ms = 0) const;
 };
