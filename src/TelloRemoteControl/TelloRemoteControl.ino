@@ -1,7 +1,7 @@
-#include <cstdint>
 #include "WifiConnection.hpp"
 #include "Tello.hpp"
 
+#include <cstdint>
 
 // GPIO Pins:
 constexpr uint8_t PIN__LINK_LED               = 12;
@@ -35,8 +35,6 @@ constexpr uint16_t TELLO_PORT = 8889;
 bool initialized = false;
 WifiConnection wifi_connection(TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD);
 Tello tello(TELLO_IP, TELLO_PORT);
-
-
 
 void initialize()
 {

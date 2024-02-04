@@ -3,7 +3,6 @@
 #include <Arduino.h>
 #include <WiFiUdp.h>
 
-
 namespace TelloCommands
 {
     static constexpr char* COMMAND__ENABLE_SDK = "command";
