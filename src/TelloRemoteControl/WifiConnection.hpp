@@ -18,7 +18,7 @@ enum class ConnectionStatus : uint32_t
 class WifiConnection final
 {
     public:
-        explicit WifiConnection(const String& ssid, const String& password);
+        explicit WifiConnection(const WifiCredentials& creds);
         ~WifiConnection() = default;
 
     public:

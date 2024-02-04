@@ -2,8 +2,8 @@
 
 #include <WiFi.h>
 
-WifiConnection::WifiConnection(const String& ssid, const String& password) :
-    _creds(WifiCredentials(ssid, password))
+WifiConnection::WifiConnection(const WifiCredentials& creds) :
+    _creds(creds)
 {
 
 }

@@ -33,7 +33,8 @@ constexpr uint16_t TELLO_PORT = 8889;
 
 // Global variables:
 bool initialized = false;
-WifiConnection wifi_connection(TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD);
+const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
+WifiConnection wifi_connection(wifi_creds);
 Tello tello(TELLO_IP, TELLO_PORT);
 
 void initialize()
