@@ -60,7 +60,7 @@ bool initialize_connection_to_tello()
 bool enable_sdk_mode()
 {
     Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    const bool succeeded = tello.send_command(TelloCommands::COMMAND__ENABLE_SDK);
+    const bool succeeded = tello.send_command(TelloCommands::ENABLE_SDK);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
@@ -68,7 +68,7 @@ bool enable_sdk_mode()
 bool takeoff()
 {
     Serial.print(STATUS_MESSAGE__TAKING_OFF);
-    const bool succeeded = tello.send_command(TelloCommands::COMMAND__TAKEOFF);
+    const bool succeeded = tello.send_command(TelloCommands::TAKEOFF);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
@@ -76,7 +76,7 @@ bool takeoff()
 bool land()
 {
     Serial.print(STATUS_MESSAGE__LANDING);
-    const bool succeeded = tello.send_command(TelloCommands::COMMAND__LAND);
+    const bool succeeded = tello.send_command(TelloCommands::LAND);
     Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
     return succeeded;
 }
