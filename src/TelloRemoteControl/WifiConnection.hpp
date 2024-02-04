@@ -5,10 +5,11 @@ class WifiConnection
 {
     public: enum class ConnectionAttemptStatus
     {
-        FAILED = 0,
-        TIMED_OUT = 1,
-        SUCCEEDED = 2
+        FAILED,
+        TIMED_OUT,
+        SUCCEEDED
     };
+
 
     private: String ssid;
     private: String password;
