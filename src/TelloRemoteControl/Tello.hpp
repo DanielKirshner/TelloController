@@ -4,8 +4,8 @@
 
 class Tello
 {
-    private: static const int LOCAL_UDP_SOCKET_PORT = 9000;    // Local port to bind the UDP socket to. Can be any free port.
-    private: static const size_t TEMPORARY_BUFFER_SIZE = 1024;
+    private: static constexpr int LOCAL_UDP_SOCKET_PORT = 9000;    // Local port to bind the UDP socket to. Can be any free port.
+    private: static constexpr size_t TEMPORARY_BUFFER_SIZE = 1024;
 
     private: String ip;
     private: uint16_t port;
