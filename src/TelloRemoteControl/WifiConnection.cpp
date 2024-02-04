@@ -2,7 +2,7 @@
 #include <WiFi.h>
 
 
-WifiConnection::WifiConnection(String ssid, String password)
+WifiConnection::WifiConnection(const String& ssid, const String& password)
 {
     this->ssid = ssid;
     this->password = password;

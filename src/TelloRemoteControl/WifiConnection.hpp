@@ -16,6 +16,6 @@ class WifiConnection
     private: String ssid;
     private: String password;
 
-    public: WifiConnection(String ssid, String password);
+    public: WifiConnection(const String& ssid, const String& password);
     public: ConnectionAttemptStatus connect(uint64_t timeout_in_ms = 0) const;
 };

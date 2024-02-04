@@ -9,8 +9,8 @@ class Debugger
     private: static constexpr uint32_t SERIAL_PORT_BAUD_RATE = 9600;
 
     // Message Responses:
-    private: static constexpr char* MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
-    private: static constexpr char* MESSAGE_RESPONSE__FAIL    = "FAIL!";
+    private: static constexpr char* const MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
+    private: static constexpr char* const MESSAGE_RESPONSE__FAIL    = "FAIL!";
 
     
     private: bool enabled;

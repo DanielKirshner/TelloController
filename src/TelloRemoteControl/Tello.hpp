@@ -10,9 +10,9 @@ class Tello
     private: static constexpr size_t TEMPORARY_BUFFER_SIZE = 1024;
 
     // Commands:
-    public: static constexpr char* COMMAND__ENABLE_SDK = "command";
-    public: static constexpr char* COMMAND__TAKEOFF    = "takeoff";
-    public: static constexpr char* COMMAND__LAND       = "land";
+    public: static constexpr char* const COMMAND__ENABLE_SDK = "command";
+    public: static constexpr char* const COMMAND__TAKEOFF    = "takeoff";
+    public: static constexpr char* const COMMAND__LAND       = "land";
 
 
     private: String ip;
@@ -20,7 +20,7 @@ class Tello
     private: WiFiUDP udp_socket;
     private: byte temporaryBuffer[TEMPORARY_BUFFER_SIZE];
 
-    public: Tello(String ip, uint16_t port);
+    public: Tello(const String& ip, uint16_t port);
 
     public: bool initialize_connection();
     public: bool send_command(const String& command);

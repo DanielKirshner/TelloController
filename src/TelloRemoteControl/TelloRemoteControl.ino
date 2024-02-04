@@ -19,17 +19,17 @@ constexpr uint8_t PIN__LEFT_BUTTON            = 21;
 constexpr uint8_t PIN__RIGHT_BUTTON           = 22;
 
 // Debug Messages:
-constexpr char* MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
-constexpr char* STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
-constexpr char* STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
-constexpr char* STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
-constexpr char* STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
-constexpr char* STATUS_MESSAGE__LANDING                          = "Landing...";
+constexpr char* const MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
+constexpr char* const STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
+constexpr char* const STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
+constexpr char* const STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
+constexpr char* const STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
+constexpr char* const STATUS_MESSAGE__LANDING                          = "Landing...";
 
 // Connection parameters:
-constexpr char* TELLO_WIFI_SSID = "TELLO-9F5E9A";
-constexpr char* TELLO_WIFI_PASSWORD = "";
-constexpr char* TELLO_IP = "192.168.10.1";
+constexpr char* const TELLO_WIFI_SSID = "TELLO-9F5E9A";
+constexpr char* const TELLO_WIFI_PASSWORD = "";
+constexpr char* const TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
 

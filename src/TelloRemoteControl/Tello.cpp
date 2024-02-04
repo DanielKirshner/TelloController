@@ -1,7 +1,7 @@
 #include "Tello.hpp"
 
 
-Tello::Tello(String ip, uint16_t port)
+Tello::Tello(const String& ip, uint16_t port)
 {
     this->ip = ip;
     this->port = port;
