@@ -4,10 +4,6 @@
 Debugger::Debugger(bool enabled)
 {
     this->enabled = enabled;
-}
-
-void Debugger::initialize() const
-{
     if (enabled)
     {
         Serial.begin(SERIAL_PORT_BAUD_RATE);

@@ -42,7 +42,6 @@ bool initialized = false;
 
 void initialize()
 {
-    debugger.initialize();
     debugger.print_message(MESSAGE__FIRMWARE_INFO);
 }
 
