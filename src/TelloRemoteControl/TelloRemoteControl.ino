@@ -1,7 +1,10 @@
+#include "Debugger.hpp"
 #include "WifiConnection.hpp"
 #include "Tello.hpp"
 
 #include <cstdint>
+
+constexpr bool ENABLE_DEBUG_MESSAGES = true;
 
 // GPIO Pins:
 constexpr uint8_t PIN__LINK_LED               = 12;
@@ -16,77 +19,96 @@ constexpr uint8_t PIN__LEFT_BUTTON            = 21;
 constexpr uint8_t PIN__RIGHT_BUTTON           = 22;
 
 // Debug Messages:
-constexpr char* MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
-constexpr char* STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
-constexpr char* STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
-constexpr char* STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
-constexpr char* STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
-constexpr char* STATUS_MESSAGE__LANDING                          = "Landing...";
-constexpr char* STATUS_MESSAGE_RESPONSE__SUCCESS                 = "SUCCESS!";
-constexpr char* STATUS_MESSAGE_RESPONSE__FAIL                    = "FAIL!";
+constexpr char* const MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
+constexpr char* const STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
+constexpr char* const STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
+constexpr char* const STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
+constexpr char* const STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
+constexpr char* const STATUS_MESSAGE__LANDING                          = "Landing...";
 
 // Connection parameters:
-constexpr char* TELLO_WIFI_SSID = "TELLO-9F5E9A";
-constexpr char* TELLO_WIFI_PASSWORD = "";
-constexpr char* TELLO_IP = "192.168.10.1";
+constexpr char* const TELLO_WIFI_SSID = "TELLO-9F5E9A";
+constexpr char* const TELLO_WIFI_PASSWORD = "";
+const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
+constexpr char* const TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
-// Global variables:
-bool initialized = false;
-const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
 WifiConnection wifi_connection(wifi_creds);
+Debugger debugger(ENABLE_DEBUG_MESSAGES);
 Tello tello(TELLO_IP, TELLO_PORT);
+bool initialized = false;
 
 void initialize()
 {
-    Serial.begin(9600);
-    Serial.println(MESSAGE__FIRMWARE_INFO);
+    debugger.print_message(MESSAGE__FIRMWARE_INFO);
 }
 
 void connect_to_wifi()
 {
-    Serial.print(STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI);
-    wifi_connection.connect();
-    Serial.println(" " + String(STATUS_MESSAGE_RESPONSE__SUCCESS));
+    debugger.wrap_in_success_message
+    (
+        STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI,
+        []()
+        {
+            wifi_connection.connect();
+            return true;    // Ignored for now.
+        }
+    );
 }
 
 bool initialize_connection_to_tello()
 {
-    Serial.print(STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO);
-    const bool succeeded = tello.initialize_connection();
-    Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
-    return succeeded;
+    return debugger.wrap_in_success_message
+    (
+        STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO,
+        []()
+        {
+            return tello.initialize_connection();
+        }
+    );
 }
 
 bool enable_sdk_mode()
 {
-    Serial.print(STATUS_MESSAGE__ENABLING_SDK_MODE);
-    const bool succeeded = tello.send_command(TelloCommands::ENABLE_SDK);
-    Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
-    return succeeded;
+    return debugger.wrap_in_success_message
+    (
+        STATUS_MESSAGE__ENABLING_SDK_MODE,
+        []()
+        {
+            return tello.send_command(TelloCommands::ENABLE_SDK);
+        }
+    );
 }
 
 bool takeoff()
 {
-    Serial.print(STATUS_MESSAGE__TAKING_OFF);
-    const bool succeeded = tello.send_command(TelloCommands::TAKEOFF);
-    Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
-    return succeeded;
+    return debugger.wrap_in_success_message
+    (
+        STATUS_MESSAGE__TAKING_OFF,
+        []()
+        {
+            return tello.send_command(TelloCommands::TAKEOFF);
+        }
+    );
 }
 
 bool land()
 {
-    Serial.print(STATUS_MESSAGE__LANDING);
-    const bool succeeded = tello.send_command(TelloCommands::LAND);
-    Serial.println(" " + String(succeeded ? STATUS_MESSAGE_RESPONSE__SUCCESS : STATUS_MESSAGE_RESPONSE__FAIL));
-    return succeeded;
+    return debugger.wrap_in_success_message
+    (
+        STATUS_MESSAGE__LANDING,
+        []()
+        {
+            return tello.send_command(TelloCommands::LAND);
+        }
+    );
 }
 
 void fly_direction(const String& direction, const size_t cm_to_move)
 {
     if (cm_to_move < 20 || cm_to_move > 500)
     {
-        Serial.println("Invalid cm parameter");
+        debugger.print_message("Invalid cm parameter");
         return;
     }
     const String full_command = direction + " " + cm_to_move;
