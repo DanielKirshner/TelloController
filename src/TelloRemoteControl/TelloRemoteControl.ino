@@ -1,8 +1,8 @@
-#include <cstdint>
 #include "Debugger.hpp"
 #include "WifiConnection.hpp"
 #include "Tello.hpp"
 
+#include <cstdint>
 
 constexpr bool ENABLE_DEBUG_MESSAGES = true;
 
@@ -29,16 +29,14 @@ constexpr char* const STATUS_MESSAGE__LANDING                          = "Landin
 // Connection parameters:
 constexpr char* const TELLO_WIFI_SSID = "TELLO-9F5E9A";
 constexpr char* const TELLO_WIFI_PASSWORD = "";
+const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
 constexpr char* const TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
-
+WifiConnection wifi_connection(wifi_creds);
 Debugger debugger(ENABLE_DEBUG_MESSAGES);
-WifiConnection wifi_connection(TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD);
 Tello tello(TELLO_IP, TELLO_PORT);
 bool initialized = false;
-
-
 
 void initialize()
 {
@@ -77,7 +75,7 @@ bool enable_sdk_mode()
         STATUS_MESSAGE__ENABLING_SDK_MODE,
         []()
         {
-            return tello.send_command(Tello::COMMAND__ENABLE_SDK);
+            return tello.send_command(TelloCommands::ENABLE_SDK);
         }
     );
 }
@@ -89,7 +87,7 @@ bool takeoff()
         STATUS_MESSAGE__TAKING_OFF,
         []()
         {
-            return tello.send_command(Tello::COMMAND__TAKEOFF);
+            return tello.send_command(TelloCommands::TAKEOFF);
         }
     );
 }
@@ -101,7 +99,7 @@ bool land()
         STATUS_MESSAGE__LANDING,
         []()
         {
-            return tello.send_command(Tello::COMMAND__LAND);
+            return tello.send_command(TelloCommands::LAND);
         }
     );
 }

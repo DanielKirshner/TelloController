@@ -2,23 +2,33 @@
 
 #include <Arduino.h>
 
+struct WifiCredentials
+{
+    String ssid;
+    String password;
+};
 
-class WifiConnection
+enum class ConnectionStatus : uint32_t
+{
+    FAILED = 0,
+    TIMED_OUT,
+    SUCCEEDED
+};
+
+class WifiConnection final
 {
     public:
-        enum class ConnectionAttemptStatus
-        {
-            FAILED,
-            TIMED_OUT,
-            SUCCEEDED
-        };
-
-
-    private:
-        String ssid;
-        String password;
+        explicit WifiConnection(const WifiCredentials& creds);
+        ~WifiConnection() = default;
 
     public:
-        WifiConnection(const String& ssid, const String& password);
-        ConnectionAttemptStatus connect(uint64_t timeout_in_ms = 0) const;
+        /*
+            @brief Trying to connect to the Wi-Fi network using the credentials given with a certain timeout
+            @param timeout_in_ms Timeout for trying to connect the Wi-Fi in miliseconds
+            @return ConnectionStatus value
+        */
+        ConnectionStatus connect(const uint64_t timeout_in_ms = 0) const;
+
+    private:
+        const WifiCredentials _creds = { };
 };
