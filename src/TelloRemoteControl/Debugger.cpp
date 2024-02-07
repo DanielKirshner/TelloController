@@ -5,7 +5,7 @@ Debugger::Debugger(const bool enabled) :
 {
     if (enabled)
     {
-        Serial.begin(SERIAL_PORT_BAUD_RATE);
+        Serial.begin(_SERIAL_PORT_BAUD_RATE);
     }
 }
 
