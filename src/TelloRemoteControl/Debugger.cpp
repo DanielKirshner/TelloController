@@ -1,9 +1,8 @@
 #include "Debugger.hpp"
 
-
-Debugger::Debugger(bool enabled)
+Debugger::Debugger(const bool enabled) :
+    _enabled(enabled)
 {
-    this->enabled = enabled;
     if (enabled)
     {
         Serial.begin(SERIAL_PORT_BAUD_RATE);
@@ -12,7 +11,7 @@ Debugger::Debugger(bool enabled)
 
 void Debugger::print_message(const String& message) const
 {
-    if (enabled)
+    if (_enabled)
     {
         Serial.println(message);
     }
@@ -20,14 +19,14 @@ void Debugger::print_message(const String& message) const
 
 bool Debugger::wrap_in_success_message(const String& message, bool (*function_to_wrap)()) const
 {
-    if (enabled)
+    if (_enabled)
     {
         Serial.print(message);
     }
     const bool succeeded = function_to_wrap();
-    if (enabled)
+    if (_enabled)
     {
-        Serial.println(" " + String(succeeded ? MESSAGE_RESPONSE__SUCCESS : MESSAGE_RESPONSE__FAIL));
+        Serial.println(" " + String(succeeded ? _MESSAGE_RESPONSE__SUCCESS : _MESSAGE_RESPONSE__FAIL));
     }
     return succeeded;
 }
