@@ -36,7 +36,7 @@ class Tello final
         bool initialize_connection();
     
     private:
-        static constexpr size_t MAX_PACKET_SIZE = 1024;
+        constexpr size_t MAX_PACKET_SIZE = 1024;
 
     private:
         const String _ip;

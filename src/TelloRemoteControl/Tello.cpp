@@ -9,7 +9,7 @@ Tello::Tello(const String& ip, const uint16_t port) :
 
 bool Tello::initialize_connection()
 {
-    static constexpr uint16_t LOCAL_UDP_SOCKET_PORT = 9000;
+    constexpr uint16_t LOCAL_UDP_SOCKET_PORT = 9000;
     return _udp_socket.begin(LOCAL_UDP_SOCKET_PORT);
 }
 
