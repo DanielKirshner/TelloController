@@ -14,11 +14,11 @@ class Debugger final
         bool wrap_in_success_message(const String& message, bool (*function_to_wrap)()) const;
 
     private:
-        constexpr uint32_t _SERIAL_PORT_BAUD_RATE = 9600;
+        static constexpr uint32_t _SERIAL_PORT_BAUD_RATE = 9600;
 
     private:
-        constexpr char* const _MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
-        constexpr char* const _MESSAGE_RESPONSE__FAIL    = "FAIL!";
+        static constexpr char* const _MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
+        static constexpr char* const _MESSAGE_RESPONSE__FAIL    = "FAIL!";
 
     private:
         bool _enabled;
