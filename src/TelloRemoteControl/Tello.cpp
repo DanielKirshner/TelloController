@@ -13,6 +13,21 @@ bool Tello::initialize_connection()
     return _udp_socket.begin(LOCAL_UDP_SOCKET_PORT);
 }
 
+bool Tello::enable_sdk()
+{
+    return send_command(TelloCommands::ENABLE_SDK);
+}
+
+bool Tello::takeoff()
+{
+    return send_command(TelloCommands::TAKEOFF);
+}
+
+bool Tello::land()
+{
+    return send_command(TelloCommands::LAND);
+}
+
 bool Tello::send_command(const String& command)
 {
     byte packet_buffer[MAX_PACKET_SIZE];

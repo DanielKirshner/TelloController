@@ -19,6 +19,19 @@ class Tello final
     public:
         /*
             @brief
+                Initialize tello udp connection
+
+            @return
+                Boolean flag if the connection successfully initialized
+        */
+        bool initialize_connection();
+        bool enable_sdk();
+        bool takeoff();
+        bool land();
+        
+    private:
+        /*
+            @brief
                 Converting command given to buffer and send it to the tello drone
             @param command
                 String that represents the command according to the DJI-SDK
@@ -26,14 +39,6 @@ class Tello final
                 Boolean flag if the command succeeded
         */
         bool send_command(const String& command);
-        /*
-            @brief
-                Initialize tello udp connection
-
-            @return
-                Boolean flag if the connection successfully initialized
-        */
-        bool initialize_connection();
     
     private:
         static constexpr size_t MAX_PACKET_SIZE = 1024;

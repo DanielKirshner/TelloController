@@ -75,7 +75,7 @@ bool enable_sdk_mode()
         STATUS_MESSAGE__ENABLING_SDK_MODE,
         []()
         {
-            return tello.send_command(TelloCommands::ENABLE_SDK);
+            return tello.enable_sdk();
         }
     );
 }
@@ -87,7 +87,7 @@ bool takeoff()
         STATUS_MESSAGE__TAKING_OFF,
         []()
         {
-            return tello.send_command(TelloCommands::TAKEOFF);
+            return tello.takeoff();
         }
     );
 }
@@ -99,7 +99,7 @@ bool land()
         STATUS_MESSAGE__LANDING,
         []()
         {
-            return tello.send_command(TelloCommands::LAND);
+            return tello.land();
         }
     );
 }
