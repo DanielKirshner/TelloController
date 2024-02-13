@@ -104,7 +104,7 @@ bool land()
     );
 }
 
-void fly_direction(const String& direction, const size_t cm_to_move)
+/*void fly_direction(const String& direction, const size_t cm_to_move)
 {
     if (cm_to_move < 20 || cm_to_move > 500)
     {
@@ -113,7 +113,7 @@ void fly_direction(const String& direction, const size_t cm_to_move)
     }
     const String full_command = direction + " " + cm_to_move;
     tello.send_command(full_command);
-}
+}*/
 
 void setup()
 {
