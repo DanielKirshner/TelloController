@@ -5,9 +5,9 @@
 
 namespace TelloCommands
 {
-    constexpr char* const ENABLE_SDK = "command";
-    constexpr char* const TAKEOFF    = "takeoff";
-    constexpr char* const LAND       = "land";
+    constexpr const char* ENABLE_SDK = "command";
+    constexpr const char* TAKEOFF    = "takeoff";
+    constexpr const char* LAND       = "land";
 };
 
 class Tello final
