@@ -19,18 +19,18 @@ constexpr uint8_t PIN__LEFT_BUTTON            = 21;
 constexpr uint8_t PIN__RIGHT_BUTTON           = 22;
 
 // Debug Messages:
-constexpr char* const MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
-constexpr char* const STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
-constexpr char* const STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
-constexpr char* const STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
-constexpr char* const STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
-constexpr char* const STATUS_MESSAGE__LANDING                          = "Landing...";
+constexpr const char* MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
+constexpr const char* STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
+constexpr const char* STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
+constexpr const char* STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
+constexpr const char* STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
+constexpr const char* STATUS_MESSAGE__LANDING                          = "Landing...";
 
 // Connection parameters:
-constexpr char* const TELLO_WIFI_SSID = "TELLO-9F5E9A";
-constexpr char* const TELLO_WIFI_PASSWORD = "";
+constexpr const char* TELLO_WIFI_SSID = "TELLO-9F5E9A";
+constexpr const char* TELLO_WIFI_PASSWORD = "";
 const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
-constexpr char* const TELLO_IP = "192.168.10.1";
+constexpr const char* TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
 WifiConnection wifi_connection(wifi_creds);
@@ -75,7 +75,7 @@ bool enable_sdk_mode()
         STATUS_MESSAGE__ENABLING_SDK_MODE,
         []()
         {
-            return tello.send_command(TelloCommands::ENABLE_SDK);
+            return tello.enable_sdk();
         }
     );
 }
@@ -87,7 +87,7 @@ bool takeoff()
         STATUS_MESSAGE__TAKING_OFF,
         []()
         {
-            return tello.send_command(TelloCommands::TAKEOFF);
+            return tello.takeoff();
         }
     );
 }
@@ -99,12 +99,12 @@ bool land()
         STATUS_MESSAGE__LANDING,
         []()
         {
-            return tello.send_command(TelloCommands::LAND);
+            return tello.land();
         }
     );
 }
 
-void fly_direction(const String& direction, const size_t cm_to_move)
+/*void fly_direction(const String& direction, const size_t cm_to_move)
 {
     if (cm_to_move < 20 || cm_to_move > 500)
     {
@@ -113,7 +113,7 @@ void fly_direction(const String& direction, const size_t cm_to_move)
     }
     const String full_command = direction + " " + cm_to_move;
     tello.send_command(full_command);
-}
+}*/
 
 void setup()
 {
