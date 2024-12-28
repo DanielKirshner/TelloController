@@ -32,3 +32,8 @@ WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_
     }
     return ConnectionStatus::SUCCEEDED;
 }
+
+bool WifiConnection::disconnect() const
+{
+    return WiFi.disconnect(false, true);
+}
