@@ -1,4 +1,5 @@
 #include "Debugger.hpp"
+#include "WifiCredentials.hpp"
 #include "WifiConnection.hpp"
 #include "Tello.hpp"
 

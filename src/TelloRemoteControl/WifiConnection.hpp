@@ -2,12 +2,8 @@
 
 #include <Arduino.h>
 
+#include "WifiCredentials.hpp"
 
-struct WifiCredentials
-{
-    String ssid;
-    String password;
-};
 
 class WifiConnection final
 {
