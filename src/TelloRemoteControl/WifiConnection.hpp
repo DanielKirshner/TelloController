@@ -9,15 +9,16 @@ struct WifiCredentials
     String password;
 };
 
-enum class ConnectionStatus : uint32_t
-{
-    FAILED = 0,
-    TIMED_OUT,
-    SUCCEEDED
-};
-
 class WifiConnection final
 {
+    public:
+        enum class ConnectionStatus : uint32_t
+        {
+            FAILED = 0,
+            TIMED_OUT,
+            SUCCEEDED
+        };
+
     public:
         explicit WifiConnection(const WifiCredentials& creds);
         ~WifiConnection() = default;

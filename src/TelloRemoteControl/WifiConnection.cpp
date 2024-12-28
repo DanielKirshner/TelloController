@@ -9,7 +9,7 @@ WifiConnection::WifiConnection(const WifiCredentials& creds) :
 
 }
 
-ConnectionStatus WifiConnection::connect(const uint64_t timeout_in_ms) const
+WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_in_ms) const
 {
     WiFi.begin(_creds.ssid.c_str(), _creds.password.c_str());
     const uint64_t start_time = millis();
