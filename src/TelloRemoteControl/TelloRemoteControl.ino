@@ -48,15 +48,14 @@ void initialize()
     debugger.print_message(FIRMWARE_INFO);
 }
 
-void connect_to_wifi()
+bool connect_to_wifi()
 {
-    debugger.execute_verbosely
+    return debugger.execute_verbosely
     (
         StatusMessage::CONNECTING_TO_TELLO_WIFI,
         []()
         {
-            wifi_connection.connect();
-            return true;    // Ignored for now.
+            return (wifi_connection.connect() == WifiConnection::ConnectionStatus::SUCCEEDED);
         }
     );
 }
