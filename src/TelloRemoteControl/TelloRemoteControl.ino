@@ -40,7 +40,6 @@ constexpr uint16_t TELLO_PORT = 8889;
 WifiConnection wifi_connection(wifi_creds);
 Debugger debugger(ENABLE_DEBUG_MESSAGES);
 Tello tello(TELLO_IP, TELLO_PORT);
-bool initialized = false;
 
 
 void initialize()
@@ -123,29 +122,21 @@ void setup()
 {
     delay(5000);
     initialize();
-
-    delay(1000);
-    connect_to_wifi();
-
-    delay(1000);
-    if (!initialize_connection_to_tello())
-    {
-        return;
-    }
-
-    delay(1000);
-    if (!enable_sdk_mode())
-    {
-        return;
-    }
-
-    initialized = true;
 }
 
 void loop()
 {
-    if (initialized)
+    if (!wifi_connection.is_connected())
     {
-
+        while (!connect_to_wifi());
+        if (!initialize_connection_to_tello() ||
+            !enable_sdk_mode())
+        {
+            delay(500);
+            wifi_connection.disconnect();
+            delay(500);
+            return;
+        }
     }
+    // TODO: Add drone-control logic here
 }
