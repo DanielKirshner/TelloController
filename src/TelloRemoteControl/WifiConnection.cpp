@@ -21,6 +21,7 @@ WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_
             const uint64_t current_time = millis();
             if (current_time - start_time >= timeout_in_ms)
             {
+                disconnect();
                 return ConnectionStatus::TIMED_OUT;
             }
         }
@@ -28,6 +29,7 @@ WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_
 
     if (WiFi.status() == WL_CONNECT_FAILED)
     {
+        disconnect();
         return ConnectionStatus::FAILED;
     }
     return ConnectionStatus::SUCCEEDED;
