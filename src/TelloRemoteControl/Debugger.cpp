@@ -18,13 +18,13 @@ void Debugger::print_message(const String& message) const
     }
 }
 
-bool Debugger::wrap_in_success_message(const String& message, bool (*function_to_wrap)()) const
+bool Debugger::execute_verbosely(const String& message, bool (*action)()) const
 {
     if (_enabled)
     {
         Serial.print(message);
     }
-    const bool succeeded = function_to_wrap();
+    const bool succeeded = action();
     if (_enabled)
     {
         Serial.println(" " + String(succeeded ? _MESSAGE_RESPONSE__SUCCESS : _MESSAGE_RESPONSE__FAIL));

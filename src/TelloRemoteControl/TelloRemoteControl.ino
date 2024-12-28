@@ -49,7 +49,7 @@ void initialize()
 
 void connect_to_wifi()
 {
-    debugger.wrap_in_success_message
+    debugger.execute_verbosely
     (
         StatusMessage::CONNECTING_TO_TELLO_WIFI,
         []()
@@ -62,7 +62,7 @@ void connect_to_wifi()
 
 bool initialize_connection_to_tello()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
         StatusMessage::INITIALIZING_CONNECTION_TO_TELLO,
         []()
@@ -74,7 +74,7 @@ bool initialize_connection_to_tello()
 
 bool enable_sdk_mode()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
         StatusMessage::ENABLING_SDK_MODE,
         []()
@@ -86,7 +86,7 @@ bool enable_sdk_mode()
 
 bool takeoff()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
         StatusMessage::TAKING_OFF,
         []()
@@ -98,7 +98,7 @@ bool takeoff()
 
 bool land()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
         StatusMessage::LANDING,
         []()

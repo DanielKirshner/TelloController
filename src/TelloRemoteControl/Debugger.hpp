@@ -12,7 +12,7 @@ class Debugger final
     
     public:
         void print_message(const String& message) const;
-        bool wrap_in_success_message(const String& message, bool (*function_to_wrap)()) const;
+        bool execute_verbosely(const String& message, bool (*action)()) const;
 
     private:
         static constexpr uint32_t _SERIAL_PORT_BAUD_RATE = 9600;
