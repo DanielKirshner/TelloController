@@ -27,6 +27,7 @@ class WifiConnection final
         */
         ConnectionStatus connect(const uint64_t timeout_in_ms = 0) const;
         bool disconnect() const;
+        bool is_connected() const;
 
     private:
         const WifiCredentials _creds = { };

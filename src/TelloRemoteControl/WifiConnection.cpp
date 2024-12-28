@@ -37,3 +37,8 @@ bool WifiConnection::disconnect() const
 {
     return WiFi.disconnect(false, true);
 }
+
+bool WifiConnection::is_connected() const
+{
+    return (WiFi.status() == WL_CONNECTED);
+}
