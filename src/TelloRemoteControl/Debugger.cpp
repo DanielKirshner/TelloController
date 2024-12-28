@@ -1,5 +1,6 @@
 #include "Debugger.hpp"
 
+
 Debugger::Debugger(const bool enabled) :
     _enabled(enabled)
 {

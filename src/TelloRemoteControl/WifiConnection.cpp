@@ -2,6 +2,7 @@
 
 #include <WiFi.h>
 
+
 WifiConnection::WifiConnection(const WifiCredentials& creds) :
     _creds(creds)
 {

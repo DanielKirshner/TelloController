@@ -4,6 +4,7 @@
 
 #include <cstdint>
 
+
 constexpr bool ENABLE_DEBUG_MESSAGES = true;
 
 // GPIO Pins:
@@ -33,10 +34,12 @@ const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
 constexpr const char* TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
+
 WifiConnection wifi_connection(wifi_creds);
 Debugger debugger(ENABLE_DEBUG_MESSAGES);
 Tello tello(TELLO_IP, TELLO_PORT);
 bool initialized = false;
+
 
 void initialize()
 {
