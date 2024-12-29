@@ -15,7 +15,7 @@ class Debugger final
         bool execute_verbosely(const String& message, bool (*action)()) const;
 
     private:
-        static constexpr uint32_t _SERIAL_PORT_BAUD_RATE = 9600;
+        static constexpr uint32_t _SERIAL_PORT_BAUD_RATE = 115200;
 
     private:
         static constexpr const char* _MESSAGE_RESPONSE__SUCCESS = "SUCCESS!";
