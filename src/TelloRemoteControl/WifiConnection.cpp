@@ -25,6 +25,7 @@ WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_
                 return ConnectionStatus::TIMED_OUT;
             }
         }
+        delay(1);
     }
 
     if (WiFi.status() == WL_CONNECT_FAILED)
