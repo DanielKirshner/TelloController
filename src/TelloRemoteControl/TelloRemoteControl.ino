@@ -1,31 +1,34 @@
 #include "Debugger.hpp"
+#include "WifiCredentials.hpp"
 #include "WifiConnection.hpp"
 #include "Tello.hpp"
 
 #include <cstdint>
 
+
 constexpr bool ENABLE_DEBUG_MESSAGES = true;
-
-// GPIO Pins:
-constexpr uint8_t PIN__LINK_LED               = 12;
-constexpr uint8_t PIN__BUZZER                 = 5;
-constexpr uint8_t PIN__LEFT_JOYSTICK_X_WHEEL  = 15;
-constexpr uint8_t PIN__LEFT_JOYSTICK_Y_WHEEL  = 4;
-constexpr uint8_t PIN__LEFT_JOYSTICK_BUTTON   = 16;
-constexpr uint8_t PIN__RIGHT_JOYSTICK_X_WHEEL = 25;
-constexpr uint8_t PIN__RIGHT_JOYSTICK_Y_WHEEL = 33;
-constexpr uint8_t PIN__RIGHT_JOYSTICK_BUTTON  = 32;
-constexpr uint8_t PIN__LEFT_BUTTON            = 21;
-constexpr uint8_t PIN__RIGHT_BUTTON           = 22;
-
-// Debug Messages:
-constexpr const char* MESSAGE__FIRMWARE_INFO                           = "Tello Remote-Controller | v0.1";
-constexpr const char* STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
-constexpr const char* STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
-constexpr const char* STATUS_MESSAGE__ENABLING_SDK_MODE                = "Enabling SDK mode...";
-constexpr const char* STATUS_MESSAGE__TAKING_OFF                       = "Taking-Off...";
-constexpr const char* STATUS_MESSAGE__LANDING                          = "Landing...";
-
+constexpr const char* FIRMWARE_INFO = "Tello Remote-Controller | v0.1";
+namespace StatusMessage
+{
+    constexpr const char* CONNECTING_TO_TELLO_WIFI         = "Connecting to Tello's Wi-Fi...";
+    constexpr const char* INITIALIZING_CONNECTION_TO_TELLO = "Initializing a connection to Tello...";
+    constexpr const char* ENABLING_SDK_MODE                = "Enabling SDK mode...";
+    constexpr const char* TAKING_OFF                       = "Taking-Off...";
+    constexpr const char* LANDING                          = "Landing...";
+}
+namespace GpioPin
+{
+    constexpr uint8_t LINK_LED               = 12;
+    constexpr uint8_t BUZZER                 = 5;
+    constexpr uint8_t LEFT_JOYSTICK_X_WHEEL  = 15;
+    constexpr uint8_t LEFT_JOYSTICK_Y_WHEEL  = 4;
+    constexpr uint8_t LEFT_JOYSTICK_BUTTON   = 16;
+    constexpr uint8_t RIGHT_JOYSTICK_X_WHEEL = 25;
+    constexpr uint8_t RIGHT_JOYSTICK_Y_WHEEL = 33;
+    constexpr uint8_t RIGHT_JOYSTICK_BUTTON  = 32;
+    constexpr uint8_t LEFT_BUTTON            = 21;
+    constexpr uint8_t RIGHT_BUTTON           = 22;
+}
 // Connection parameters:
 constexpr const char* TELLO_WIFI_SSID = "TELLO-9F5E9A";
 constexpr const char* TELLO_WIFI_PASSWORD = "";
@@ -33,34 +36,34 @@ const WifiCredentials wifi_creds = {TELLO_WIFI_SSID, TELLO_WIFI_PASSWORD};
 constexpr const char* TELLO_IP = "192.168.10.1";
 constexpr uint16_t TELLO_PORT = 8889;
 
+
 WifiConnection wifi_connection(wifi_creds);
 Debugger debugger(ENABLE_DEBUG_MESSAGES);
 Tello tello(TELLO_IP, TELLO_PORT);
-bool initialized = false;
+
 
 void initialize()
 {
-    debugger.print_message(MESSAGE__FIRMWARE_INFO);
+    debugger.print_message(FIRMWARE_INFO);
 }
 
-void connect_to_wifi()
+bool connect_to_wifi()
 {
-    debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
-        STATUS_MESSAGE__CONNECTING_TO_TELLO_WIFI,
+        StatusMessage::CONNECTING_TO_TELLO_WIFI,
         []()
         {
-            wifi_connection.connect();
-            return true;    // Ignored for now.
+            return (wifi_connection.connect() == WifiConnection::ConnectionStatus::SUCCEEDED);
         }
     );
 }
 
 bool initialize_connection_to_tello()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
-        STATUS_MESSAGE__INITIALIZING_CONNECTION_TO_TELLO,
+        StatusMessage::INITIALIZING_CONNECTION_TO_TELLO,
         []()
         {
             return tello.initialize_connection();
@@ -70,9 +73,9 @@ bool initialize_connection_to_tello()
 
 bool enable_sdk_mode()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
-        STATUS_MESSAGE__ENABLING_SDK_MODE,
+        StatusMessage::ENABLING_SDK_MODE,
         []()
         {
             return tello.enable_sdk();
@@ -82,9 +85,9 @@ bool enable_sdk_mode()
 
 bool takeoff()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
-        STATUS_MESSAGE__TAKING_OFF,
+        StatusMessage::TAKING_OFF,
         []()
         {
             return tello.takeoff();
@@ -94,9 +97,9 @@ bool takeoff()
 
 bool land()
 {
-    return debugger.wrap_in_success_message
+    return debugger.execute_verbosely
     (
-        STATUS_MESSAGE__LANDING,
+        StatusMessage::LANDING,
         []()
         {
             return tello.land();
@@ -119,29 +122,21 @@ void setup()
 {
     delay(5000);
     initialize();
-
-    delay(1000);
-    connect_to_wifi();
-
-    delay(1000);
-    if (!initialize_connection_to_tello())
-    {
-        return;
-    }
-
-    delay(1000);
-    if (!enable_sdk_mode())
-    {
-        return;
-    }
-
-    initialized = true;
 }
 
 void loop()
 {
-    if (initialized)
+    if (!wifi_connection.is_connected())
     {
-
+        while (!connect_to_wifi());
+        if (!initialize_connection_to_tello() ||
+            !enable_sdk_mode())
+        {
+            delay(500);
+            wifi_connection.disconnect();
+            delay(500);
+            return;
+        }
     }
+    // TODO: Add drone-control logic here
 }

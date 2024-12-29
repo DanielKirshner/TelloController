@@ -2,13 +2,14 @@
 
 #include <WiFi.h>
 
+
 WifiConnection::WifiConnection(const WifiCredentials& creds) :
     _creds(creds)
 {
 
 }
 
-ConnectionStatus WifiConnection::connect(const uint64_t timeout_in_ms) const
+WifiConnection::ConnectionStatus WifiConnection::connect(const uint64_t timeout_in_ms) const
 {
     WiFi.begin(_creds.ssid.c_str(), _creds.password.c_str());
     const uint64_t start_time = millis();
@@ -20,14 +21,27 @@ ConnectionStatus WifiConnection::connect(const uint64_t timeout_in_ms) const
             const uint64_t current_time = millis();
             if (current_time - start_time >= timeout_in_ms)
             {
+                disconnect();
                 return ConnectionStatus::TIMED_OUT;
             }
         }
+        delay(1);
     }
 
     if (WiFi.status() == WL_CONNECT_FAILED)
     {
+        disconnect();
         return ConnectionStatus::FAILED;
     }
     return ConnectionStatus::SUCCEEDED;
+}
+
+bool WifiConnection::disconnect() const
+{
+    return WiFi.disconnect(false, true);
+}
+
+bool WifiConnection::is_connected() const
+{
+    return (WiFi.status() == WL_CONNECTED);
 }
