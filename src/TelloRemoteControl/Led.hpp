@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Arduino.h>
+#include "DigitalPin.hpp"
 
-#include "GpioPin.hpp"
+#include <Arduino.h>
 
 
 class Led final
@@ -16,5 +16,5 @@ class Led final
         void turn_off() const;
 
     private:
-        const GpioPin _gpio_pin;
+        const DigitalPin _gpio_pin;
 };
