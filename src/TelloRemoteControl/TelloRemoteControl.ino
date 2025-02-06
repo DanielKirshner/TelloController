@@ -16,7 +16,7 @@ namespace StatusMessage
     constexpr const char* TAKING_OFF                       = "Taking-Off...";
     constexpr const char* LANDING                          = "Landing...";
 }
-namespace GpioPin
+namespace GpioPinNumber
 {
     constexpr uint8_t LINK_LED               = 12;
     constexpr uint8_t BUZZER                 = 5;
