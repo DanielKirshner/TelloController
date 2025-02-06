@@ -12,7 +12,14 @@ GpioPin::GpioPin(const uint8_t number, const bool inverted, const Mode mode, con
 
 GpioPin::~GpioPin()
 {
-    set_mode(DEFAULT_MODE);
+    try
+    {
+        set_mode(DEFAULT_MODE);
+    }
+    catch (...)
+    {
+        
+    }
 }
 
 void GpioPin::set_mode(const Mode mode) const
