@@ -9,5 +9,5 @@ Button::Button(const uint8_t gpio_pin_number) :
 
 bool Button::is_pressed() const
 {
-    return _gpio_pin.get_state()
+    return _gpio_pin.get_state();
 }
