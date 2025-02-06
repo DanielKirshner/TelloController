@@ -3,8 +3,12 @@
 #include <Arduino.h>
 
 
-GpioPin::GpioPin(const uint8_t number, const bool inverted, const Mode mode, const bool enable) :
-    _number(number), _inverted(inverted)
+GpioPin::GpioPin(const uint8_t number,
+                 const bool inverted,
+                 const Mode mode,
+                 const bool enable) :
+    _number(number),
+    _inverted(inverted)
 {
     set_mode(mode);
     set_state(enable);
@@ -18,7 +22,7 @@ GpioPin::~GpioPin()
     }
     catch (...)
     {
-        
+
     }
 }
 
