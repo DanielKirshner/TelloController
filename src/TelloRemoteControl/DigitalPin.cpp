@@ -1,9 +1,10 @@
-#include "GpioPin.hpp"
+#include "DigitalPin.hpp"
+#include "Debugger.hpp"
 
 #include <Arduino.h>
 
 
-GpioPin::GpioPin(const uint8_t number,
+DigitalPin::DigitalPin(const uint8_t number,
                  const bool inverted,
                  const Mode mode,
                  const bool enable) :
@@ -14,7 +15,7 @@ GpioPin::GpioPin(const uint8_t number,
     set_state(enable);
 }
 
-GpioPin::~GpioPin()
+DigitalPin::~DigitalPin()
 {
     try
     {
@@ -26,7 +27,7 @@ GpioPin::~GpioPin()
     }
 }
 
-void GpioPin::set_mode(const Mode mode) const
+void DigitalPin::set_mode(const Mode mode) const
 {
     uint8_t mode_value = INPUT;
     switch (mode)
@@ -44,12 +45,12 @@ void GpioPin::set_mode(const Mode mode) const
     pinMode(_number, mode_value);
 }
 
-bool GpioPin::get_state() const
+bool DigitalPin::get_state() const
 {
     return (digitalRead(_number) == HIGH) ^ _inverted;
 }
 
-void GpioPin::set_state(const bool enabled) const
+void DigitalPin::set_state(const bool enabled) const
 {
     digitalWrite(_number, (enabled ^ _inverted) ? HIGH : LOW);
 }

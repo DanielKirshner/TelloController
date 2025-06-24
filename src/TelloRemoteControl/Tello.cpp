@@ -2,7 +2,10 @@
 
 
 Tello::Tello(const String& ip, const uint16_t port) : 
-    _ip(ip), _port(port) {}
+    _ip(ip), _port(port)
+{
+    
+}
 
 bool Tello::initialize_connection()
 {
