@@ -20,7 +20,7 @@ void Debugger::print_message(const String& message) const
 
 bool Debugger::execute_verbosely(const String& message, bool (*action)()) const
 {
-    if (_enabled)
+    if (_enabled) 
     {
         Serial.print(message);
     }

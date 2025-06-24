@@ -16,7 +16,7 @@ namespace StatusMessage
     constexpr const char* TAKING_OFF                       = "Taking-Off...";
     constexpr const char* LANDING                          = "Landing...";
 }
-namespace GpioPin
+namespace GpioPinNumber
 {
     constexpr uint8_t LINK_LED               = 12;
     constexpr uint8_t BUZZER                 = 5;
@@ -106,17 +106,6 @@ bool land()
         }
     );
 }
-
-/*void fly_direction(const String& direction, const size_t cm_to_move)
-{
-    if (cm_to_move < 20 || cm_to_move > 500)
-    {
-        debugger.print_message("Invalid cm parameter");
-        return;
-    }
-    const String full_command = direction + " " + cm_to_move;
-    tello.send_command(full_command);
-}*/
 
 void setup()
 {
